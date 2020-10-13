@@ -1,11 +1,11 @@
-package come.airline.models;
+package com.airline.models;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Passenger {
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private Gender gender;
 
     public String getFirstName() {
@@ -24,11 +24,11 @@ public class Passenger {
         this.lastName = lastName;
     }
 
-    public Date getDateOfBirth() {
+    public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(Date dateOfBirth) {
+    public void setDateOfBirth(LocalDate dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

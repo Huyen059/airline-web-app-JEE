@@ -1,5 +1,8 @@
 package com.airline.controllers;
 
+import com.airline.models.Gender;
+import com.airline.models.Passenger;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,11 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Formatter;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -25,10 +25,11 @@ public class AddPassenger extends HttpServlet {
         PrintWriter out = response.getWriter();
         response.setContentType("text/html");
         request.setAttribute("errors", false);
-        String firstName = request.getParameter("firstName");
-        String lastName = request.getParameter("lastName");
-        String dateOfBirth = request.getParameter("dateOfBirth");
+        String firstName = request.getParameter("firstName").trim();
+        String lastName = request.getParameter("lastName").trim();
+        String dateOfBirth = request.getParameter("dateOfBirth").trim();
         String gender = request.getParameter("gender");
+        LocalDate date = null;
 
         // check if these inputs are empty
         if (firstName.isEmpty()) {
@@ -63,7 +64,7 @@ public class AddPassenger extends HttpServlet {
 //                LocalDate date = dateOfBirthAsDateObject.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
                 // If use input is 31/02/2000, the object created is 29/02/2000 (depending on if that year has 29/2 or only 28/2)
-                LocalDate date = LocalDate.parse(dateOfBirth, dateTimeFormatter);
+                date = LocalDate.parse(dateOfBirth, dateTimeFormatter);
                 if (date.getMonthValue() != monthOfBirth || date.getDayOfMonth() != dayOfBirth || date.getYear() != yearOfBirth) {
                     request.setAttribute("errors", true);
                     request.setAttribute("dateValidityError", true);
@@ -77,6 +78,15 @@ public class AddPassenger extends HttpServlet {
         if((Boolean) request.getAttribute("errors")) {
             RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/add-passenger.jsp");
             view.forward(request, response);
+        } else {
+            Passenger passenger = new Passenger();
+            passenger.setFirstName(firstName);
+            passenger.setLastName(lastName);
+            passenger.setDateOfBirth(date);
+            passenger.setGender(Gender.valueOf(gender.toUpperCase()));
+            ArrayList<Passenger> passengerArrayList = new ArrayList<>();
+            passengerArrayList.add(passenger);
+            response.sendRedirect("");
         }
     }
 

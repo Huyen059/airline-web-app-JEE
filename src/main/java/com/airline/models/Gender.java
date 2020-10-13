@@ -1,4 +1,4 @@
-package come.airline.models;
+package com.airline.models;
 
 public enum Gender {
     MALE,
