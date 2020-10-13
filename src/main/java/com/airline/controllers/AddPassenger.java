@@ -86,9 +86,12 @@ public class AddPassenger extends HttpServlet {
             passenger.setDateOfBirth(date);
             passenger.setGender(Gender.valueOf(gender.toUpperCase()));
             ServletContext sc = this.getServletContext();
-            ArrayList<Passenger> passengers = (ArrayList<Passenger>) sc.getAttribute("passengers");
-            passengers.add(passenger);
-            sc.setAttribute("passengers", passengers);
+            // use synchronized to force code to be executed sequentially
+            synchronized (this) {
+                ArrayList<Passenger> passengers = (ArrayList<Passenger>) sc.getAttribute("passengers");
+                passengers.add(passenger);
+                sc.setAttribute("passengers", passengers);
+            }
             response.sendRedirect("");
         }
     }
