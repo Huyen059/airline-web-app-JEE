@@ -4,6 +4,7 @@ import com.airline.models.Gender;
 import com.airline.models.Passenger;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -84,8 +85,10 @@ public class AddPassenger extends HttpServlet {
             passenger.setLastName(lastName);
             passenger.setDateOfBirth(date);
             passenger.setGender(Gender.valueOf(gender.toUpperCase()));
-            ArrayList<Passenger> passengerArrayList = new ArrayList<>();
-            passengerArrayList.add(passenger);
+            ServletContext sc = this.getServletContext();
+            ArrayList<Passenger> passengers = (ArrayList<Passenger>) sc.getAttribute("passengers");
+            passengers.add(passenger);
+            sc.setAttribute("passengers", passengers);
             response.sendRedirect("");
         }
     }
