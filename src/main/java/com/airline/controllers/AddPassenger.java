@@ -22,25 +22,37 @@ public class AddPassenger extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html");
+        request.setAttribute("errors", false);
         String firstName = request.getParameter("firstName");
         String lastName = request.getParameter("lastName");
         String dateOfBirth = request.getParameter("dateOfBirth");
         String gender = request.getParameter("gender");
 
-        // Todo: check if these inputs are empty
+        // check if these inputs are empty
+        if (firstName.isEmpty()) {
+            request.setAttribute("errors", true);
+            request.setAttribute("firstNameError", true);
+        }
 
-        String pattern = "^([0-2][0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$";
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(dateOfBirth);
-        if (m.find()) {
-            String[] dateOfBirthAsArray = dateOfBirth.split("/");
-            try {
+        if (lastName.isEmpty()) {
+            request.setAttribute("errors", true);
+            request.setAttribute("lastNameError", true);
+        }
+
+        if (dateOfBirth.isEmpty()) {
+            request.setAttribute("errors", true);
+            request.setAttribute("dateError", true);
+        } else {
+            String pattern = "^([0-2][0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$";
+            Pattern r = Pattern.compile(pattern);
+            Matcher m = r.matcher(dateOfBirth);
+            if (m.find()) {
+                String[] dateOfBirthAsArray = dateOfBirth.split("/");
                 int dayOfBirth = Integer.parseInt(dateOfBirthAsArray[0].trim());
                 int monthOfBirth = Integer.parseInt(dateOfBirthAsArray[1].trim());
                 int yearOfBirth = Integer.parseInt(dateOfBirthAsArray[2].trim());
-
-                //Todo: check range of day, month, year
-
 //                Calendar dateOfBirthAsCalendarObject = Calendar.getInstance();
 //                // when the month/day values are out of bound, the calendar takes the extra to the year/month
 //                // example: if user input is 31/02/2000, the object created is 02/03/2000
@@ -50,25 +62,22 @@ public class AddPassenger extends HttpServlet {
 //                Date dateOfBirthAsDateObject = dateOfBirthAsCalendarObject.getTime();
 //                LocalDate date = dateOfBirthAsDateObject.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                // If use input is 31/02/2000, the object created is 29/02/2000 (depending on if that year has 29/2 or only 28/2)
                 LocalDate date = LocalDate.parse(dateOfBirth, dateTimeFormatter);
-                String message = "";
                 if (date.getMonthValue() != monthOfBirth || date.getDayOfMonth() != dayOfBirth || date.getYear() != yearOfBirth) {
-                    message = "date is not correct";
+                    request.setAttribute("errors", true);
+                    request.setAttribute("dateValidityError", true);
                 }
-                PrintWriter out = response.getWriter();
-                response.setContentType("text/html");
-                out.println("<html><body>");
-                if (message.equals("")) {
-                    out.println(date.toString());
-                } else {
-                    out.println(message);
-                }
-                out.println("</html></body>");
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
+            } else {
+                request.setAttribute("errors", true);
+                request.setAttribute("dateFormatError", true);
             }
         }
 
+        if((Boolean) request.getAttribute("errors")) {
+            RequestDispatcher view = request.getRequestDispatcher("WEB-INF/views/add-passenger.jsp");
+            view.forward(request, response);
+        }
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

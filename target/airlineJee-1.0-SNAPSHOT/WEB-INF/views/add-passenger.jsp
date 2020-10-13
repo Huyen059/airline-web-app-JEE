@@ -24,14 +24,39 @@
                 <label for="firstName">First Name</label>
                 <input type="text" class="form-control" id="firstName" name="firstName">
             </div>
+            <% if (request.getAttribute("firstNameError") != null) { %>
+            <div class="alert alert-danger" role="alert">
+                Firstname is required!
+            </div>
+            <% } %>
             <div class="form-group">
                 <label for="lastName">Last Name</label>
                 <input type="text" class="form-control" id="lastName" name="lastName">
             </div>
+            <% if (request.getAttribute("lastNameError") != null) { %>
+            <div class="alert alert-danger" role="alert">
+                Lastname is required!
+            </div>
+            <% } %>
             <div class="form-group">
                 <label for="dateOfBirth">Date of birth (dd/mm/YYYY)</label>
                 <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth">
             </div>
+            <% if (request.getAttribute("dateError") != null) { %>
+            <div class="alert alert-danger" role="alert">
+                Date is required!
+            </div>
+            <% } %>
+            <% if (request.getAttribute("dateFormatError") != null) { %>
+            <div class="alert alert-danger" role="alert">
+                Incorrect format!
+            </div>
+            <% } %>
+            <% if (request.getAttribute("dateValidityError") != null) { %>
+            <div class="alert alert-danger" role="alert">
+                Date is not valid!
+            </div>
+            <% } %>
             <div class="form-group">
                 <label for="gender">Gender</label>
                 <select class="form-control" id="gender" name="gender">
