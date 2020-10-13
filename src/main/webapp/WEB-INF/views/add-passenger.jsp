@@ -22,19 +22,19 @@
             <legend>Passenger details</legend>
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName">
+                <input type="text" class="form-control" id="firstName" name="firstName">
             </div>
             <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" id="lastName">
+                <input type="text" class="form-control" id="lastName" name="lastName">
             </div>
             <div class="form-group">
-                <label for="dateOfBirth">Date of birth</label>
-                <input type="text" class="form-control" id="dateOfBirth">
+                <label for="dateOfBirth">Date of birth (dd/mm/YYYY)</label>
+                <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth">
             </div>
             <div class="form-group">
                 <label for="gender">Gender</label>
-                <select class="form-control" id="gender">
+                <select class="form-control" id="gender" name="gender">
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
