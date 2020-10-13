@@ -27,8 +27,11 @@ public class AddPassenger extends HttpServlet {
         response.setContentType("text/html");
         request.setAttribute("errors", false);
         String firstName = request.getParameter("firstName").trim();
+        request.setAttribute("firstName", firstName);
         String lastName = request.getParameter("lastName").trim();
+        request.setAttribute("lastName", lastName);
         String dateOfBirth = request.getParameter("dateOfBirth").trim();
+        request.setAttribute("dateOfBirth", dateOfBirth);
         String gender = request.getParameter("gender");
         LocalDate date = null;
 

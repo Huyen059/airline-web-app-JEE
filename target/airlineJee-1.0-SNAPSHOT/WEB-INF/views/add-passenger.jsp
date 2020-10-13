@@ -22,7 +22,13 @@
             <legend>Passenger details</legend>
             <div class="form-group">
                 <label for="firstName">First Name</label>
-                <input type="text" class="form-control" id="firstName" name="firstName">
+                <input type="text"
+                       class="form-control"
+                       id="firstName"
+                       value="<% if (request.getAttribute("firstName") != null) {
+                           out.print(request.getAttribute("firstName"));
+                       } %>"
+                       name="firstName">
             </div>
             <% if (request.getAttribute("firstNameError") != null) { %>
             <div class="alert alert-danger" role="alert">
@@ -31,7 +37,13 @@
             <% } %>
             <div class="form-group">
                 <label for="lastName">Last Name</label>
-                <input type="text" class="form-control" id="lastName" name="lastName">
+                <input type="text"
+                       class="form-control"
+                       id="lastName"
+                       value="<% if (request.getAttribute("lastName") != null) {
+                           out.print(request.getAttribute("lastName"));
+                       } %>"
+                       name="lastName">
             </div>
             <% if (request.getAttribute("lastNameError") != null) { %>
             <div class="alert alert-danger" role="alert">
@@ -40,7 +52,13 @@
             <% } %>
             <div class="form-group">
                 <label for="dateOfBirth">Date of birth (dd/mm/YYYY)</label>
-                <input type="text" class="form-control" id="dateOfBirth" name="dateOfBirth">
+                <input type="text"
+                       class="form-control"
+                       id="dateOfBirth"
+                       value="<% if (request.getAttribute("dateOfBirth") != null) {
+                           out.print(request.getAttribute("dateOfBirth"));
+                       } %>"
+                       name="dateOfBirth">
             </div>
             <% if (request.getAttribute("dateError") != null) { %>
             <div class="alert alert-danger" role="alert">
